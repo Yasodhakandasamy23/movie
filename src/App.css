@@ -36,3 +36,39 @@
     transform: rotate(360deg);
   }
 }
+.movie_spe{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.movie_container{
+  width: 340px;
+  
+}
+.image{
+  width: 340px;
+  height: 500px;
+  
+
+}
+.movie_review{
+  margin: 0px;
+  font-size: 19px;
+  font-family:'Times New Roman', Times, serif;
+  font-weight: 100;
+}
+.movie_title{
+  font-size: 24px;
+  margin: 0px;
+}
+.movie_rate{
+  font-size: 16px;
+}
+.movie_list{
+  display: flex;
+  flex-wrap: wrap;
+  gap:30px;padding-top: 10px;
+  
+  
+  
+}
