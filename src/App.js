@@ -1,8 +1,9 @@
 import { useState } from 'react';
-
+import Button from '@mui/material/Button';
 import './App.css';
 import { Counter } from "./Counter";
 import { Routes, Route, Link, useNavigate, useParams, Navigate } from "react-router-dom";
+import TextField from '@mui/material/TextField';
 const movielist=[{
 
   name: "RRR",
@@ -74,6 +75,7 @@ const movielist=[{
   }
 ];
 function App() {
+  const[movie,setMovie]=useState(movielist);
    return (
       <div>
         <nav>
@@ -83,9 +85,9 @@ function App() {
 </nav>
    <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/MovieItem" element={<MovieItem />} />
+        <Route path="/MovieItem" element={<MovieItem movie={movie} setMovie={setMovie}  />} />
         <Route path="/ListItem" element={<Navigate replace to ="/MovieItem" />} />
-        <Route path="/MovieItem/:id" element={<MovieDetails/>} />
+        <Route path="/MovieItem/:id" element={<MovieDetails movie={movie} setMovie={setMovie} />} />
         <Route path="*" element={<NotFound/>} />
       </Routes>
    
@@ -106,44 +108,71 @@ return(
 
 
 }
-function MovieDetails({rate,name,review,trailer}){
+function MovieDetails({movie}){
   const {id} = useParams();
-  const movie = movielist[id];
-  console.log(movie);
+  const movielist = movie[id];
+ 
   const backnavigate = useNavigate(-1);
   const style={
-    color: rate > 8 ? "green" :"Red",
+    color: movie.rate > 8 ? "green" :"Red",
   };
   return( 
      
       <div className='movie_detail-container'>
             <div>
-              <iframe width="1097" height="617" src={movie.trailer} title="RRR Trailer (Telugu) - NTR, Ram Charan, Ajay Devgn, Alia Bhatt | SS Rajamouli | 25th March 2022" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>  
+              <iframe width="1097" height="617" src={movielist.trailer}
+               title="RRR Trailer (Telugu) - NTR, Ram Charan, Ajay Devgn, Alia Bhatt | SS Rajamouli | 25th March 2022"
+                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>  
             <div className="movie_spe">
-      <h1> {movie.name}</h1>
-      <p  style={style} className="movie_rate">⭐{rate}</p>
+      <h1> {movielist.name}</h1>
+      <p  style={style} className="movie_rate">⭐{movielist.rate}</p>
       </div> 
       </div>
-      <p className='movie_review'>{movie.review}</p> 
+      <p className='movie_review'>{movielist.review}</p> 
       
-      
-       
-         
-     
       <button onClick={()=>backnavigate(-1)}>Back</button>
       </div>
     )
   }
 
-function MovieItem(){
-  const movie = movielist;
-return( <div className="movie_list" >    
+function MovieItem({movie,setMovie}){
+  //const movie = movielist;
+  
+  const [name,setName]=useState("");
+  const [image,setImage]=useState("");
+  const [rate,setRate]=useState("");
+  const [review,setReview]=useState("");  
+  const [trailer,setTrailer]=useState("");
+return( 
+  <div>
+  <div className='addmovie' >
+  <TextField onChange={(event)=>setName(event.target.value)} type="text" id="outlined-basic" label="Name" variant="outlined" />
+
+<TextField onChange={(event)=>setImage(event.target.value)} type="text"id="outlined-basic" label="Image" variant="outlined"/>
+<TextField onChange={(event)=>setRate(event.target.value)} type="text" id="outlined-basic" label="Rate" variant="outlined"/>
+<TextField onChange={(event)=>setReview(event.target.value)} type="text" id="outlined-basic" label="Review" variant="outlined"/>
+<TextField onChange={(event)=>setTrailer(event.target.value)} type="text"id="outlined-basic" label="Trailer" variant="outlined" />
+<Button variant="outlined"onClick={()=>{
+  const newMovie={name,image,rate,review,trailer
+  };
+  console.log(newMovie);
+  setMovie([...movie,newMovie]);
+
+  }
+  }>Add Movie</Button>
+ 
+
+
+</div>
+
+<div className="movie_list" >    
 {
   movie.map((user,index)=>(
-    <Movietem key={index} name={user.name} image={user.image} rate={user.rate} review={user.review} id={index}/>
+    <Movietem key={index} name={user.name} image={user.image} rate={user.rate} review={user.review}  id={index}/>
       )
   )
-  }</div>
+  }</div></div>
+ 
 )
 }
 
@@ -175,7 +204,7 @@ const backnavigate = useNavigate(-1);
 {show ? <p className='movie_review'>{review}</p> :" "}
    
 <Counter/>
-<button onClick={()=>backnavigate(-1)}>Back</button>
+<Button onClick={()=>backnavigate(-1)} variant="outlined">Back</Button>
 </div>
 
 

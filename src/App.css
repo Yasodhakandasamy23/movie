@@ -81,3 +81,10 @@
   width: 1100px;
   padding: 20px 20px 20px 20px;
 }
+.addmovie{
+ display: flex;
+ flex-direction: column;
+ gap :10px;
+ width: 200px;
+ border-radius:2rem;
+}
