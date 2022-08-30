@@ -37,7 +37,6 @@ function App() {
       <div>
         <ThemeProvider theme={Theme}>
       <CssBaseline />
-      
     
         <AppBar position="">
         <Toolbar>
@@ -46,11 +45,8 @@ function App() {
           <Button color="inherit" onClick={()=>navigate("/MovieItem")}>Movie</Button>
           <Button color="inherit" onClick={()=>navigate("MovieItem/AddMovie")}>AddMovie </Button>
           <Button startIcon = {mode === "dark"?< Brightness7Icon />:<Brightness4Icon />} color="inherit" onClick={()=>setMode(mode === "dark" ? "light" : "dark")}>
-          {mode === "dark" ? "light" : "dark"}mode</Button>
-          
-          
-        </Toolbar>
-        
+          {mode === "dark" ? "light" : "dark"}mode</Button>                  
+        </Toolbar>        
       </AppBar>      
    <Routes>
         <Route path="/" element={<Home />} />
