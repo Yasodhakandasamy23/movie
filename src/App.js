@@ -34,14 +34,14 @@ function App() {
   });
   
    return (
-      <div>
+      <div className='movie_page' >
         <ThemeProvider theme={Theme}>
       <CssBaseline />
     
         <AppBar position="">
         <Toolbar>
          
-          <Button color="inherit" onClick={()=>navigate("/MovieItem")}>Home</Button>
+          <Button color="inherit" onClick={()=>navigate("/")}>Home</Button>
           <Button color="inherit" onClick={()=>navigate("/MovieItem")}>Movie</Button>
           <Button color="inherit" onClick={()=>navigate("MovieItem/AddMovie")}>AddMovie </Button>
           <Button startIcon = {mode === "dark"?< Brightness7Icon />:<Brightness4Icon />} color="inherit" onClick={()=>setMode(mode === "dark" ? "light" : "dark")}>
@@ -155,8 +155,13 @@ return(
 
 function Home(){
   return(
-  <h1>Welcom to my web movie web page</h1>
-  )  
+ <div className='home_page'>
+    Welcom to my web movie web page
+  </div>
+  
+  ) 
+
+
   } 
 function Movietem({name,image,rate,review,id}){
 const style={
@@ -191,7 +196,7 @@ const backnavigate = useNavigate(-1);
 <CardActions>
 <Counter/>
 </CardActions>
-<Button onClick={()=>backnavigate(-1)} variant="outlined">Back</Button>
+<Button  onClick={()=>backnavigate(-1)} variant="outlined">Back</Button>
 </Card>
 
 

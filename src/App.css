@@ -42,9 +42,19 @@
   justify-content: space-between;
 }
 .movie_container{
-  width: 340px;
-  height: min-content;
-  
+  width: 340px;  
+  padding-left: 10px 10px 10px 10px;
+
+}
+.movie_page{
+  max-width: 1100px;
+  margin: auto;
+  padding: 10px;
+
+}
+.back_button{
+
+  padding: 10px;
 }
 .image{
   width: 340px;
@@ -85,7 +95,19 @@
 .addmovie{
  display: flex;
  flex-direction: column;
+ -ms-flex-align: center;
  gap :10px;
- width: 200px;
  border-radius:2rem;
+ padding: 10px 10px 10px 10px;
+ 
+
+ 
+}
+.home_page{
+ font-size: 70px;
+ font-style: italic;
+ text-align: center;
+ padding: 40px 40px 40px 40px ;
+
+  
 }
