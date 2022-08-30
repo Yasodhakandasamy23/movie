@@ -10,7 +10,6 @@ import MailIcon from '@mui/icons-material/Mail';
 
 
 
-
 export function Counter() {
   //let like = 10;
   const [like, setlike] = useState(0);

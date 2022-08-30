@@ -43,6 +43,7 @@
 }
 .movie_container{
   width: 340px;
+  height: min-content;
   
 }
 .image{

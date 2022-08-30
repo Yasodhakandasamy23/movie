@@ -1,103 +1,109 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import './App.css';
 import { Counter } from "./Counter";
 import { Routes, Route, Link, useNavigate, useParams, Navigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
-const movielist=[{
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import IconButton from '@mui/material/IconButton';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import MenuIcon from '@mui/icons-material/Menu';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { dark } from '@mui/material/styles/createPalette';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
 
-  name: "RRR",
-    image:
-      "https://englishtribuneimages.blob.core.windows.net/gallary-content/2021/6/Desk/2021_6$largeimg_977224513.JPG",
-    rate: 8.8,
-    review:
-      "RRR is an upcoming Indian Telugu-language period action drama film directed by S. S. Rajamouli, and produced by D. V. V. Danayya of DVV Entertainments.",
-      trailer : "https://www.youtube.com/embed/f_vbAtFSEc0"
-},
-  {
-    name: "Iron man 2",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BMTM0MDgwNjMyMl5BMl5BanBnXkFtZTcwNTg3NzAzMw@@._V1_FMjpg_UX1000_.jpg",
-    rate: 7,
-    review:
-      "With the world now aware that he is Iron Man, billionaire inventor Tony Stark (Robert Downey Jr.) faces pressure from all sides to share his technology with the military. He is reluctant to divulge the secrets of his armored suit, fearing the information will fall into the wrong hands. With Pepper Potts (Gwyneth Paltrow) and Rhodes (Don Cheadle) by his side, Tony must forge new alliances and confront a powerful new enemy.",
-      trailer: "https://www.youtube.com/embed/wKtcmiifycU" },
-  {
-    name: "No Country for Old Men",
-   image:
-      "https://upload.wikimedia.org/wikipedia/en/8/8b/No_Country_for_Old_Men_poster.jpg",
-    rate: 8.1,
-    review:
-      "A hunter's life takes a drastic turn when he discovers two million dollars while strolling through the aftermath of a drug deal. He is then pursued by a psychopathic killer who wants the money.",
-      trailer: "https://www.youtube.com/embed/38A__WT3-o0"},
-  {
-    name: "Jai Bhim",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BY2Y5ZWMwZDgtZDQxYy00Mjk0LThhY2YtMmU1MTRmMjVhMjRiXkEyXkFqcGdeQXVyMTI1NDEyNTM5._V1_FMjpg_UX1000_.jpg",
-    review:
-      "A tribal woman and a righteous lawyer battle in court to unravel the mystery around the disappearance of her husband, who was picked up the police on a false case",
-    rate: 8.8,
-    trailer: "https://www.youtube.com/embed/nnXpbTFrqXA"
-  },
-  {
-    name: "The Avengers",
-    rate: 8,
-    review:
-      "Marvel's The Avengers (classified under the name Marvel Avengers\n Assemble in the United Kingdom and Ireland), or simply The Avengers, is\n a 2012 American superhero film based on the Marvel Comics superhero team\n of the same name.",
-    image:
-      "https://terrigen-cdn-dev.marvel.com/content/prod/1x/avengersendgame_lob_crd_05.jpg",
-      trailer: "https://www.youtube.com/embed/eOrNdBpGMv8"
-  },
-  {
-    name: "Interstellar",
-    image: "https://m.media-amazon.com/images/I/A1JVqNMI7UL._SL1500_.jpg",
-    rate: 8.6,
-    trailer: "https://www.youtube.com/embed/zSWdZVtXT7E",
-    review:
-      "When Earth becomes uninhabitable in the future, a farmer and ex-NASA\n pilot, Joseph Cooper, is tasked to pilot a spacecraft, along with a team\n of researchers, to find a new planet for humans."
-  },
-  {
-    name: "Baahubali",
-    image: "https://flxt.tmsimg.com/assets/p11546593_p_v10_af.jpg",
-    rate: 8,
-    trailer: "https://www.youtube.com/embed/sOEg_YZQsTI",
-    review:
-      "In the kingdom of Mahishmati, Shivudu falls in love with a young warrior woman. While trying to woo her, he learns about the conflict-ridden past of his family and his true legacy."
-  },
-  {
-    name: "Ratatouille",
-    image:
-      "https://resizing.flixster.com/gL_JpWcD7sNHNYSwI1ff069Yyug=/ems.ZW1zLXByZC1hc3NldHMvbW92aWVzLzc4ZmJhZjZiLTEzNWMtNDIwOC1hYzU1LTgwZjE3ZjQzNTdiNy5qcGc=",
-    rate: 8,
-    trailer: "https://www.youtube.com/embed/NgsQ8mVkN8w",
-   review:
-      "Remy, a rat, aspires to become a renowned French chef. However, he fails to realise that people despise rodents and will never enjoy a meal cooked by him."
-  }
-];
 function App() {
-  const[movie,setMovie]=useState(movielist);
+  const[movie,setMovie]=useState([]);
+
+
+  
+  const navigate = useNavigate();
+  const [mode,setMode]=useState('dark');
+  const Theme = createTheme({
+    palette: {
+      mode: mode,
+    },
+  });
+  
    return (
       <div>
-        <nav>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="MovieItem">movie</Link></li>
+        <ThemeProvider theme={Theme}>
+      <CssBaseline />
+      
+    
+        <AppBar position="">
+        <Toolbar>
+         
+          <Button color="inherit" onClick={()=>navigate("/MovieItem")}>Home</Button>
+          <Button color="inherit" onClick={()=>navigate("/MovieItem")}>Movie</Button>
+          <Button color="inherit" onClick={()=>navigate("MovieItem/AddMovie")}>AddMovie </Button>
+          <Button startIcon = {mode === "dark"?< Brightness7Icon />:<Brightness4Icon />} color="inherit" onClick={()=>setMode(mode === "dark" ? "light" : "dark")}>
+          {mode === "dark" ? "light" : "dark"}mode</Button>
+          
+          
+        </Toolbar>
         
-</nav>
+      </AppBar>      
    <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/MovieItem/AddMovie" element={<AddMovie movie={movie} setMovie={setMovie} />} />
         <Route path="/MovieItem" element={<MovieItem movie={movie} setMovie={setMovie}  />} />
         <Route path="/ListItem" element={<Navigate replace to ="/MovieItem" />} />
         <Route path="/MovieItem/:id" element={<MovieDetails movie={movie} setMovie={setMovie} />} />
         <Route path="*" element={<NotFound/>} />
       </Routes>
-   
+      </ThemeProvider>
+      
          </div>
         
    
   );
  
 }
-function NotFound(){
+
+
+
+function AddMovie({movie,setMovie})
+{// const movie = movielist;  
+  const [name,setName]=useState("");
+  const [image,setImage]=useState("");
+  const [rate,setRate]=useState("");
+  const [review,setReview]=useState("");  
+  const [trailer,setTrailer]=useState("");
+  const AddMovie=()=>{ const newMovie={name,image,rate,review,trailer
+  };
+  console.log(newMovie);
+  setMovie([...movie,newMovie]);
+  }
+return(<div className='addmovie' >
+<TextField onChange={(event)=>setName(event.target.value)} type="text" id="outlined-basic" label="Name" variant="outlined" />
+
+<TextField onChange={(event)=>setImage(event.target.value)} type="text"id="outlined-basic" label="Image" variant="outlined"/>
+<TextField onChange={(event)=>setRate(event.target.value)} type="text" id="outlined-basic" label="Rate" variant="outlined"/>
+<TextField onChange={(event)=>setReview(event.target.value)} type="text" id="outlined-basic" label="Review" variant="outlined"/>
+<TextField onChange={(event)=>setTrailer(event.target.value)} type="text"id="outlined-basic" label="Trailer" variant="outlined" />
+<Button variant="outlined"onClick= {AddMovie}>Add Movie</Button>
+
+
+
+</div>)
+
+}
+
+
+
+function NotFound({movielist}){
   const {id} = useParams();
   const movie = movielist[id];  
 return(
@@ -105,8 +111,6 @@ return(
     <img src='https://cdn.dribbble.com/users/1175431/screenshots/6188233/404-error-dribbble-800x600.gif' alt="not found" className='not-found' >{movie}</img>
   </div>
 )
-
-
 }
 function MovieDetails({movie}){
   const {id} = useParams();
@@ -137,41 +141,21 @@ function MovieDetails({movie}){
 
 function MovieItem({movie,setMovie}){
   //const movie = movielist;
+  useEffect(()=>{fetch("https://630500a794b8c58fd729fe6a.mockapi.io/Movies")
+.then((data)=>data.json())
+.then((Movies)=>setMovie(Movies)); },[]);
   
-  const [name,setName]=useState("");
-  const [image,setImage]=useState("");
-  const [rate,setRate]=useState("");
-  const [review,setReview]=useState("");  
-  const [trailer,setTrailer]=useState("");
+
 return( 
-  <div>
-  <div className='addmovie' >
-  <TextField onChange={(event)=>setName(event.target.value)} type="text" id="outlined-basic" label="Name" variant="outlined" />
-
-<TextField onChange={(event)=>setImage(event.target.value)} type="text"id="outlined-basic" label="Image" variant="outlined"/>
-<TextField onChange={(event)=>setRate(event.target.value)} type="text" id="outlined-basic" label="Rate" variant="outlined"/>
-<TextField onChange={(event)=>setReview(event.target.value)} type="text" id="outlined-basic" label="Review" variant="outlined"/>
-<TextField onChange={(event)=>setTrailer(event.target.value)} type="text"id="outlined-basic" label="Trailer" variant="outlined" />
-<Button variant="outlined"onClick={()=>{
-  const newMovie={name,image,rate,review,trailer
-  };
-  console.log(newMovie);
-  setMovie([...movie,newMovie]);
-
-  }
-  }>Add Movie</Button>
+  
  
-
-
-</div>
-
 <div className="movie_list" >    
 {
   movie.map((user,index)=>(
     <Movietem key={index} name={user.name} image={user.image} rate={user.rate} review={user.review}  id={index}/>
       )
   )
-  }</div></div>
+  }</div>
  
 )
 }
@@ -193,23 +177,33 @@ const [show, setShow ] = useState(true);
 const navigate = useNavigate();
 const backnavigate = useNavigate(-1);
   return(
-<div className='movie_container'>
+    
+<Card className='movie_container'>
 <img  className="image"src ={image} alt="RRR"></img> 
+<CardContent>
 <div className="movie_spe">
-<h2 className="movie_title">{name}</h2>
-<p  style={style} className="movie_rate">⭐{rate}</p>
+        
+<Typography gutterBottom variant="h5" component="div">
+{name}</Typography>
+        <Typography style={style} variant="body2" color="text.secondary">
+        ⭐{rate}
+        </Typography>
 </div>
-< button onClick={()=>navigate("/MovieItem/"+id)}>info</button>
-<button onClick={()=>setShow(!show)}>Toggle description</button>
-{show ? <p className='movie_review'>{review}</p> :" "}
-   
+
+<InfoRoundedIcon color = "primary" onClick={()=>navigate("/MovieItem/"+id)}>info</InfoRoundedIcon>
+<IconButton  aria-label="DisLike"  onClick={() => setShow(!show)} color="secondary" > 
+{show ? <ExpandLessIcon/> :<ExpandMoreIcon/>}
+</IconButton>
+{show ? <p className='movie_review'>{review}</p> :" "}  </CardContent>
+<CardActions>
 <Counter/>
+</CardActions>
 <Button onClick={()=>backnavigate(-1)} variant="outlined">Back</Button>
-</div>
+</Card>
+
 
 
   )
   
 }
-
 export default App;
