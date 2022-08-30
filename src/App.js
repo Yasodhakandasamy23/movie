@@ -24,10 +24,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 
 function App() {
-  const[movie,setMovie]=useState([]);
-
-
-  
+  const[movie,setMovie]=useState([]);  
   const navigate = useNavigate();
   const [mode,setMode]=useState('dark');
   const Theme = createTheme({
